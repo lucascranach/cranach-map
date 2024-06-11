@@ -23,7 +23,7 @@ const config = {
   "generateGraphicsVirtualObjects": true,
   "pathPrefix": {
     "external": "artefacts",
-    "internal": "intern/artefacts",
+    "internal": "intern/map",
     "development": ""
   },
   "cranachCollect": {
@@ -43,7 +43,7 @@ const config = {
   },
   "cranachBaseUrl": {
     "external": "https://lucascranach.org",
-    "internal": "https://lucascranach.org/intern/artefacts",
+    "internal": "https://lucascranach.org/intern/map",
     "development": "http://localhost:8080",
   },
   "cranachBaseUrlHomepage": {

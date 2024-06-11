@@ -4,6 +4,12 @@ let map;
 
 const colors = {};
 
+const popupOptions = {
+  closeButton: false,
+  closeOnClick: true,
+  maxWidth: '30ch'
+};
+
 /* Functions
 ############################################################################ */
 
@@ -41,9 +47,10 @@ const addMapData = (filteredGeoJSON = null) => {
     }
     
     addClusterLayer();
+    addUnclusteredLayer();
     addClusterCount();
     addClusterListener();
-    addUnclusteredLayer();
+
   });
 };
 
@@ -124,50 +131,77 @@ const addClusterCount = () => {
 
 const addClusterPopups = (e, features, clusterId, clusterSource) => {
 
-  
   const pointCount = features[0].properties.point_count;
   const coordinates = e.features[0].geometry.coordinates.slice();
 
   clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
     const clusters = aFeatures.filter((item) => item.id );
+
     if (clusters.length === 0) {
-      clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
-        let popupText = `<h5 Class="popupCity">${leavesFeatures[0].properties.title}</h5>`;
-        /* leavesFeatures.forEach((item) => {
-          popupText = renderCard(item, false);
-        });*/
-        popupText += renderCard(leavesFeatures[0], false);
-        new mapboxgl.Popup({
-          anchor: 'bottom-left',
-        })
-          .setLngLat(coordinates)
-          .addTo(map);
+
+      console.log(aFeatures);
+      let popupText = `<h5 Class="popupCity">asas</h5>`;
+      aFeatures.forEach((item) => {
+        popupText += renderCard(item, false);
       });
+
+      new mapboxgl.Popup(popupOptions)
+      .setLngLat(coordinates)
+      .setHTML(popupText)
+      .addTo(map);
+
+
+//      clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
+//        let popupText = `<h5 Class="popupCity">${leavesFeatures[0].properties.title}</h5>`;
+//          leavesFeatures.forEach((item) => {
+//          popupText = renderCard(item, false);
+//        });
+//        // popupText += renderCard(leavesFeatures[0], false);
+//        console.log(leavesFeatures[0]);
+//        new mapboxgl.Popup({
+//          anchor: 'bottom-left',
+//        })
+//          .setLngLat(coordinates)
+//          .addTo(map);
+//      });
     }
   });
 }
 
 const clusterClickListener = () => {
   
-  map.on('click', 'clusters', (e) => {
-    
+  map.on('click', 'clusters', (e) => {    
     const features = map.queryRenderedFeatures(e.point, {
       layers: ['clusters'],
     });
+
     const clusterId = features[0].properties.cluster_id;
     const clusterSource = map.getSource('pois');
-    map.getSource('pois').getClusterExpansionZoom(
-      clusterId,
-      (err, zoom) => {
-        map.flyTo({
-          center: features[0].geometry.coordinates,
-          zoom,
-          speed: 2,
-        });
-      },
-    );
+
+    const leaves = clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
+      console.log(aFeatures);
+    });
+
+
+console.log(leaves);
+    if(features.length > 1){
+     map.getSource('pois').getClusterExpansionZoom(
+       clusterId,
+       (err, zoom) => {
+         map.flyTo({
+           center: features[0].geometry.coordinates,
+           zoom,
+           speed: 2,
+         });
+       },
+     );
+    }else{
+      addClusterPopups(e, features, clusterId, clusterSource);
+    }
+
+
     
-    addClusterPopups(e, features, clusterId, clusterSource);
+
   });
 }
 
@@ -214,13 +248,8 @@ const addUnclusteredLayer = () => {
 
 const unclusteredPointClickListener = () => {
 
-  const popupOptions = {
-    closeButton: false,
-    closeOnClick: true,
-    maxWidth: '30ch'
-  };
-
   map.on('click', 'unclustered-point', (e) => {
+    console.log('unclustered-point', e.features.length);
     const coordinates = e.features[0].geometry.coordinates.slice();
 
     currentZoomLevel = map.getZoom();
