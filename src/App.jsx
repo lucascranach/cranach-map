@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import Map, { Source, Layer } from "react-map-gl"
+import Map, { Source, Layer, Marker } from "react-map-gl"
 import { useAtom } from "jotai"
 
 import { mapDataAtom } from "@/store/store.jsx"
@@ -14,9 +14,10 @@ import {
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
 
-  // centering map on Europe
-  let long = 13.65
-  let lat = 50.9847674
+  // entry point
+  const long = 7
+  const lat = 51.07
+  const zoom = 9.5
 
   useEffect(() => {
     const fetchDataAndParse = async () => {
@@ -36,11 +37,11 @@ function App() {
         initialViewState={{
           latitude: lat,
           longitude: long,
-          zoom: 3.5,
+          zoom: zoom,
           bearing: 0,
           pitch: 0,
         }}
-        mapStyle="mapbox://styles/mapbox/light-v9"
+        mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
       >
         {mapData && (
@@ -57,6 +58,7 @@ function App() {
             <Layer {...unclusteredPointLayer} />
           </Source>
         )}
+        <Marker latitude={lat} longitude={long} />
       </Map>
     </div>
   )
