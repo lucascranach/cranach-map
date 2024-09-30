@@ -1,5 +1,6 @@
-import { useEffect } from "react"
-import Map, { Source, Layer } from "react-map-gl"
+import { useEffect, useRef, useState } from "react"
+import Map, { Source, Layer, Marker } from "react-map-gl"
+import { useControls } from "leva"
 import { useAtom } from "jotai"
 
 import { mapDataAtom } from "@/store/store.jsx"
@@ -9,14 +10,47 @@ import {
   clusterLayer,
   clusterCountLayer,
   unclusteredPointLayer,
-} from "@/helpers/layers.js"
+} from "@/components/map/Layers.jsx"
+import { Aside, List } from "@/components/layout/Results"
+import Card from "@/components/layout/Card"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
+  const [resultsArr, setResultsArr] = useState()
+  // entry point
+  const [viewport, setViewport] = useState({
+    long: 7,
+    lat: 51.07,
+    zoom: 9.5,
+    bearing: 0,
+    pitch: 0,
+  })
 
-  // centering map on Europe
-  let long = 13.65
-  let lat = 50.9847674
+  const mapContainerRef = useRef(null)
+  const mapRef = useRef(null)
+
+  const handleClick = (e) => {
+    // clear results
+    setResultsArr([])
+
+    const features = mapRef.current.queryRenderedFeatures(e.point, {
+      layers: ["unclustered-point", "clusters", "cluster-count"],
+    })
+    if (features.length) {
+      const feature = features[0] // obeject
+      const clusterId = feature.properties.cluster_id
+      setResultsArr([feature])
+
+      mapRef.current
+        .getSource("paintings")
+        .getClusterChildren(clusterId, (error, features) => {
+          if (!error) {
+            // console.log("Cluster children:", features)
+            setResultsArr([...features])
+          }
+        })
+    }
+  }
 
   useEffect(() => {
     const fetchDataAndParse = async () => {
@@ -31,21 +65,32 @@ function App() {
   }, [])
 
   return (
-    <div id="map">
+    <div id="map" ref={mapContainerRef}>
+      <Aside>
+        {resultsArr && resultsArr[0] ? (
+          <List>
+            {resultsArr &&
+              resultsArr.map((data, index) => <Card key={index} data={data} />)}
+          </List>
+        ) : null}
+      </Aside>
       <Map
         initialViewState={{
-          latitude: lat,
-          longitude: long,
-          zoom: 3.5,
-          bearing: 0,
-          pitch: 0,
+          latitude: viewport.lat,
+          longitude: viewport.long,
+          zoom: viewport.zoom,
+          bearing: viewport.bearing,
+          pitch: viewport.pitch,
         }}
-        mapStyle="mapbox://styles/mapbox/light-v9"
+        onClick={handleClick}
+        ref={mapRef}
+        mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+        interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
       >
         {mapData && (
           <Source
-            id="earthquakes"
+            id="paintings"
             type="geojson"
             data={mapData}
             cluster={true}
@@ -57,6 +102,7 @@ function App() {
             <Layer {...unclusteredPointLayer} />
           </Source>
         )}
+        <Marker latitude={viewport.lat} longitude={viewport.long} />
       </Map>
     </div>
   )
