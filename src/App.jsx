@@ -11,7 +11,7 @@ import {
   clusterCountLayer,
   unclusteredPointLayer,
 } from "@/components/map/Layers.jsx"
-import Results from "@/components/layout/Results"
+import { Aside, List } from "@/components/layout/Results"
 import Card from "@/components/layout/Card"
 
 function App() {
@@ -66,13 +66,14 @@ function App() {
 
   return (
     <div id="map" ref={mapContainerRef}>
-      {resultsArr && resultsArr[0] ? (
-        <Results>
-          {resultsArr &&
-            resultsArr.map((data, index) => <Card key={index} data={data} />)}
-        </Results>
-      ) : null}
-
+      <Aside>
+        {resultsArr && resultsArr[0] ? (
+          <List>
+            {resultsArr &&
+              resultsArr.map((data, index) => <Card key={index} data={data} />)}
+          </List>
+        ) : null}
+      </Aside>
       <Map
         initialViewState={{
           latitude: viewport.lat,
