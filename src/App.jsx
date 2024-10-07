@@ -25,30 +25,52 @@ function App() {
     bearing: 0,
     pitch: 0,
   })
-
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
 
+  const fetchClusterChildren = (clusterId, sourceId, results) => {
+    mapRef.current
+      .getSource(sourceId)
+      .getClusterChildren(clusterId, (error, features) => {
+        if (!error) {
+          features.forEach((feature) => {
+            if (feature.properties.cluster) {
+              // If the feature is a cluster, fetch its children
+              fetchClusterChildren(
+                feature.properties.cluster_id,
+                sourceId,
+                results
+              )
+            } else {
+              // If the feature is not a cluster, add it to the results
+              results.push(feature)
+            }
+          })
+          setResultsArr([...results])
+        }
+      })
+  }
+
   const handleClick = (e) => {
-    // clear results
+    // Clear results
     setResultsArr([])
 
     const features = mapRef.current.queryRenderedFeatures(e.point, {
       layers: ["unclustered-point", "clusters", "cluster-count"],
     })
-    if (features.length) {
-      const feature = features[0] // obeject
-      const clusterId = feature.properties.cluster_id
-      setResultsArr([feature])
 
-      mapRef.current
-        .getSource("paintings")
-        .getClusterChildren(clusterId, (error, features) => {
-          if (!error) {
-            // console.log("Cluster children:", features)
-            setResultsArr([...features])
-          }
-        })
+    if (features.length) {
+      const feature = features[0]
+      const clusterId = feature.properties.cluster_id
+      const sourceId = "paintings" // Replace with your actual source ID
+
+      if (feature.properties.cluster) {
+        // If the feature is a cluster, fetch its children
+        fetchClusterChildren(clusterId, sourceId, [])
+      } else {
+        // If the feature is not a cluster, add it to the results
+        setResultsArr([feature])
+      }
     }
   }
 
