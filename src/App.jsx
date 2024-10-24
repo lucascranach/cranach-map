@@ -168,11 +168,11 @@ function App() {
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
         >
-          {mapData ? (
+          {
             <Source
               id="paintings"
               type="geojson"
-              data={mapData}
+              data={mapData ? mapData : demoMapData}
               cluster={true}
               clusterMaxZoom={14}
               clusterRadius={50}
@@ -181,20 +181,7 @@ function App() {
               <Layer {...clusterCountLayer} />
               <Layer {...unclusteredPointLayer} />
             </Source>
-          ) : (
-            <Source
-              id="paintings"
-              type="geojson"
-              data={demoMapData}
-              cluster={true}
-              clusterMaxZoom={14}
-              clusterRadius={50}
-            >
-              <Layer {...clusterLayer} />
-              <Layer {...clusterCountLayer} />
-              <Layer {...unclusteredPointLayer} />
-            </Source>
-          )}
+          }
 
           <Marker latitude={viewport.lat} longitude={viewport.long} />
         </Map>
