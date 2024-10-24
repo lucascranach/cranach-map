@@ -95,6 +95,37 @@ function App() {
     fetchDataAndParse()
   }, [])
 
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current.getMap()
+
+      map.on("click", "clusters", (e) => {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ["clusters"],
+        })
+        const clusterId = features[0].properties.cluster_id
+        map
+          .getSource("paintings")
+          .getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return
+
+            map.flyTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom,
+            })
+          })
+      })
+
+      map.on("mouseenter", "clusters", () => {
+        map.getCanvas().style.cursor = "pointer"
+      })
+
+      map.on("mouseleave", "clusters", () => {
+        map.getCanvas().style.cursor = ""
+      })
+    }
+  }, [])
+
   return (
     <>
       {/* <Nav /> */}
