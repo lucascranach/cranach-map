@@ -116,6 +116,14 @@ function App() {
           })
       })
 
+      map.on("click", "unclustered-point", (e) => {
+        const coordinates = e.features[0].geometry.coordinates.slice()
+        map.flyTo({
+          center: coordinates,
+          zoom: 15, // Adjust the zoom level as needed
+        })
+      })
+
       map.on("mouseenter", "clusters", () => {
         map.getCanvas().style.cursor = "pointer"
       })
@@ -123,9 +131,16 @@ function App() {
       map.on("mouseleave", "clusters", () => {
         map.getCanvas().style.cursor = ""
       })
-    }
-  }, [])
 
+      map.on("mouseenter", "unclustered-point", () => {
+        map.getCanvas().style.cursor = "pointer"
+      })
+
+      map.on("mouseleave", "unclustered-point", () => {
+        map.getCanvas().style.cursor = ""
+      })
+    }
+  }, [mapRef.current])
   return (
     <>
       {/* <Nav /> */}
