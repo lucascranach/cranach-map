@@ -14,11 +14,12 @@ export const LocationItem = styled.li`
   /* top: ${({ index }) =>
     index * 3.5}rem; // Adjust the multiplier as needed */
   background-color: ${colors.lighter};
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   z-index: 3;
   font-weight: 200;
+  font-size: 0.9rem;
   cursor: pointer;
   .results-location {
     display: flex;
