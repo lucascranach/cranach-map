@@ -88,13 +88,12 @@ function App() {
         import.meta.env.VITE_GEODATA_LOGIN,
         import.meta.env.VITE_GEODATA_PASSWORD
       )
-
-      // setMapData(parseToGeoJson(data))
       setMapData(data.data)
     }
     fetchDataAndParse()
   }, [])
 
+  // highlight current cluster and non cluster
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current.getMap()
@@ -120,7 +119,7 @@ function App() {
         const coordinates = e.features[0].geometry.coordinates.slice()
         map.flyTo({
           center: coordinates,
-          zoom: 15, // Adjust the zoom level as needed
+          zoom: 15,
         })
       })
 
@@ -141,6 +140,7 @@ function App() {
       })
     }
   }, [mapRef.current])
+
   return (
     <>
       {/* <Nav /> */}
