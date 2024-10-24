@@ -1,14 +1,14 @@
-import styled from "styled-components"
+import styled, { keyframes, css } from "styled-components"
 
-export const Aside = styled.aside`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  height: auto;
-  max-height: 100%;
+const slideInFromLeft = keyframes`
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 `
 
 // Scroll Container
@@ -18,10 +18,17 @@ export const List = styled.ul`
   overflow-y: scroll;
   padding: 0.75rem;
   padding: 1.2rem;
-  gap: 1rem;
+  padding: 0.45rem;
+  gap: 0.45rem;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
+
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${slideInFromLeft} 0.3s ease-out forwards;
+    `}
 `

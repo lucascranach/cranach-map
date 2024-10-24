@@ -13,7 +13,7 @@ export const clusterLayer = {
       750,
       "#e8a60c",
     ],
-    "circle-radius": ["step", ["get", "point_count"], 20, 100, 30, 750, 40],
+    "circle-radius": ["step", ["get", "point_count"], 20, 75, 30, 500, 40],
   },
 }
 

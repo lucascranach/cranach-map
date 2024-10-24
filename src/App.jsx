@@ -11,12 +11,16 @@ import {
   clusterCountLayer,
   unclusteredPointLayer,
 } from "@/components/map/Layers.jsx"
-import { Aside, List } from "@/components/layout/Results"
+import { Aside } from "@/components/layout/Aside"
+import { List } from "@/components/layout/List"
+import { Button } from "@/components/layout/Button"
 import Card from "@/components/layout/Card"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
   const [resultsArr, setResultsArr] = useState()
+  const [isMounted, setIsMounted] = useState(false)
+
   // entry point
   const [viewport, setViewport] = useState({
     long: 7,
@@ -62,7 +66,7 @@ function App() {
     if (features.length) {
       const feature = features[0]
       const clusterId = feature.properties.cluster_id
-      const sourceId = "paintings" // Replace with your actual source ID
+      const sourceId = "paintings"
 
       if (feature.properties.cluster) {
         // If the feature is a cluster, fetch its children
@@ -81,7 +85,9 @@ function App() {
         import.meta.env.VITE_GEODATA_LOGIN,
         import.meta.env.VITE_GEODATA_PASSWORD
       )
-      setMapData(parseToGeoJson(data))
+      console.log(data)
+      // setMapData(parseToGeoJson(data))
+      setMapData(data.data)
     }
     fetchDataAndParse()
   }, [])
@@ -90,9 +96,11 @@ function App() {
     <div id="map" ref={mapContainerRef}>
       <Aside>
         {resultsArr && resultsArr[0] ? (
-          <List>
+          <List animate={resultsArr}>
             {resultsArr &&
-              resultsArr.map((data, index) => <Card key={index} data={data} />)}
+              resultsArr.map((data, index) => (
+                <Card key={index} data={data} properties={data.properties} />
+              ))}
           </List>
         ) : null}
       </Aside>
