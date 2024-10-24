@@ -9,4 +9,5 @@ export const Aside = styled.aside`
   z-index: 1;
   height: auto;
   max-height: 100%;
+  padding: 0.45rem;
 `
