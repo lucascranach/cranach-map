@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import Map, { Source, Layer, Marker } from "react-map-gl"
 import { useAtom } from "jotai"
 
-import { mapDataAtom } from "@/store/store.jsx"
+import { mapDataAtom, demoMapDataAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
 import { groupArtworksByLocation } from "@/helpers/groupArtworksByLocation.js"
 
@@ -13,14 +13,11 @@ import {
 } from "@/components/map/Layers.jsx"
 import { Aside } from "@/components/layout/Aside"
 import { List } from "@/components/layout/List"
-import { Button } from "@/components/layout/Button"
-import Card from "@/components/layout/Card"
-import Nav from "./components/layout/Nav"
-import { LocationItem } from "./components/layout/List"
 import ResultsGroup from "./components/layout/ResultsGroup"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
+  const [demoMapData, setDemoMapData] = useAtom(demoMapDataAtom)
   const [resultsArr, setResultsArr] = useState()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -143,7 +140,6 @@ function App() {
 
   return (
     <>
-      {/* <Nav /> */}
       <div id="map" ref={mapContainerRef}>
         <Aside>
           {resultsArr && resultsArr[0] ? (
@@ -172,7 +168,7 @@ function App() {
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
         >
-          {mapData && (
+          {mapData ? (
             <Source
               id="paintings"
               type="geojson"
@@ -185,7 +181,21 @@ function App() {
               <Layer {...clusterCountLayer} />
               <Layer {...unclusteredPointLayer} />
             </Source>
+          ) : (
+            <Source
+              id="paintings"
+              type="geojson"
+              data={demoMapData}
+              cluster={true}
+              clusterMaxZoom={14}
+              clusterRadius={50}
+            >
+              <Layer {...clusterLayer} />
+              <Layer {...clusterCountLayer} />
+              <Layer {...unclusteredPointLayer} />
+            </Source>
           )}
+
           <Marker latitude={viewport.lat} longitude={viewport.long} />
         </Map>
       </div>
