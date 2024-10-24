@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import Map, { Source, Layer, Marker } from "react-map-gl"
-import { useControls } from "leva"
 import { useAtom } from "jotai"
 
 import { mapDataAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
-import { parseToGeoJson } from "@/helpers/parseToGeojson.js"
+import { groupArtworksByLocation } from "@/helpers/groupArtworksByLocation.js"
 
 import {
   clusterLayer,
@@ -96,21 +95,6 @@ function App() {
     fetchDataAndParse()
   }, [])
 
-  function groupArtworksByLocation(artworks) {
-    const grouped = {}
-    for (const artwork of artworks) {
-      const location = artwork.properties.location
-      if (!grouped[location]) {
-        grouped[location] = []
-      }
-      grouped[location].push(artwork)
-    }
-    // Convert the object into an array of objects with 'name' instead of 'location'
-    return Object.keys(grouped).map((location) => ({
-      name: location,
-      artworks: grouped[location],
-    }))
-  }
   return (
     <>
       {/* <Nav /> */}
@@ -119,7 +103,9 @@ function App() {
           {resultsArr && resultsArr[0] ? (
             <List animate={resultsArr}>
               {groupArtworksByLocation(resultsArr).map((location, index) => {
-                return <ResultsGroup location={location} index={index} />
+                return (
+                  <ResultsGroup key={index} location={location} index={index} />
+                )
               })}
             </List>
           ) : null}
@@ -134,6 +120,7 @@ function App() {
             pitch: viewport.pitch,
           }}
           onClick={handleClick}
+          maxZoom={14}
           ref={mapRef}
           mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
