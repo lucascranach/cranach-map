@@ -20,6 +20,7 @@ export const List = styled.ul`
   padding: 1.2rem;
   padding: 0.45rem;
   gap: 0.45rem;
+  /* background-color: white; */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {

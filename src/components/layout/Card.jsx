@@ -7,7 +7,7 @@ import { colors } from "@/base/variables"
 
 const Li = styled.li`
   width: 32rem;
-  height: 14rem;
+  height: 11rem;
   position: relative;
   display: flex;
   background-color: ${colors.lighter};
@@ -40,6 +40,9 @@ const Li = styled.li`
         max-height: 100%;
         object-fit: contain;
       }
+    }
+    figcaption {
+      text-align: center;
     }
   }
 
@@ -85,14 +88,26 @@ const Card = ({ properties }) => {
   return (
     <Li>
       <figure>
-        <a href={"https://lucascranach.org/de/" + properties.inventory_number}>
+        <a
+          href={
+            "https://lucascranach.org/intern/artefacts-preview/de/" +
+            properties.inventory_number
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={properties.img_src} />
         </a>
         {!properties.img_src && <figcaption>Kein Bild vorhanden</figcaption>}
       </figure>
       <a
-        href={"https://lucascranach.org/de/" + properties.inventory_number}
+        href={
+          "https://lucascranach.org/intern/artefacts-preview/de/" +
+          properties.inventory_number
+        }
         className="content"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <div>
           <h2 className="title">{properties.title}</h2>

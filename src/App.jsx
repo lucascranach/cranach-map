@@ -15,6 +15,7 @@ import { Aside } from "@/components/layout/Aside"
 import { List } from "@/components/layout/List"
 import { Button } from "@/components/layout/Button"
 import Card from "@/components/layout/Card"
+import Nav from "./components/layout/Nav"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
@@ -93,48 +94,52 @@ function App() {
   }, [])
 
   return (
-    <div id="map" ref={mapContainerRef}>
-      <Aside>
-        {resultsArr && resultsArr[0] ? (
-          <List animate={resultsArr}>
-            {resultsArr &&
-              resultsArr.map((data, index) => (
-                <Card key={index} data={data} properties={data.properties} />
-              ))}
-          </List>
-        ) : null}
-      </Aside>
-      <Map
-        initialViewState={{
-          latitude: viewport.lat,
-          longitude: viewport.long,
-          zoom: viewport.zoom,
-          bearing: viewport.bearing,
-          pitch: viewport.pitch,
-        }}
-        onClick={handleClick}
-        ref={mapRef}
-        mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
-        mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
-        interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
-      >
-        {mapData && (
-          <Source
-            id="paintings"
-            type="geojson"
-            data={mapData}
-            cluster={true}
-            clusterMaxZoom={14}
-            clusterRadius={50}
-          >
-            <Layer {...clusterLayer} />
-            <Layer {...clusterCountLayer} />
-            <Layer {...unclusteredPointLayer} />
-          </Source>
-        )}
-        <Marker latitude={viewport.lat} longitude={viewport.long} />
-      </Map>
-    </div>
+    <>
+      {/* <Nav /> */}
+      <div id="map" ref={mapContainerRef}>
+        <Aside>
+          {resultsArr && resultsArr[0] ? (
+            <List animate={resultsArr}>
+              {resultsArr &&
+                resultsArr.map((data, index) => (
+                  <Card key={index} data={data} properties={data.properties} />
+                ))}
+            </List>
+          ) : null}
+        </Aside>
+
+        <Map
+          initialViewState={{
+            latitude: viewport.lat,
+            longitude: viewport.long,
+            zoom: viewport.zoom,
+            bearing: viewport.bearing,
+            pitch: viewport.pitch,
+          }}
+          onClick={handleClick}
+          ref={mapRef}
+          mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
+          mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+          interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+        >
+          {mapData && (
+            <Source
+              id="paintings"
+              type="geojson"
+              data={mapData}
+              cluster={true}
+              clusterMaxZoom={14}
+              clusterRadius={50}
+            >
+              <Layer {...clusterLayer} />
+              <Layer {...clusterCountLayer} />
+              <Layer {...unclusteredPointLayer} />
+            </Source>
+          )}
+          <Marker latitude={viewport.lat} longitude={viewport.long} />
+        </Map>
+      </div>
+    </>
   )
 }
 
