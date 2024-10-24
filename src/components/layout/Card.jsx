@@ -1,7 +1,5 @@
 import React from "react"
-// import styled from "styled-components"
-import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import styled from "styled-components"
 
 import { colors } from "@/base/variables"
 
@@ -12,6 +10,10 @@ const Li = styled.li`
   display: flex;
   background-color: ${colors.lighter};
   border-bottom: 1px solid ${colors.accent};
+
+  &:first-of-type {
+    margin-top: 0.5rem;
+  }
 
   a {
     cursor: pointer;

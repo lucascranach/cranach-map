@@ -6,6 +6,7 @@ import { useAtom } from "jotai"
 import { mapDataAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
 import { parseToGeoJson } from "@/helpers/parseToGeojson.js"
+
 import {
   clusterLayer,
   clusterCountLayer,
@@ -16,6 +17,8 @@ import { List } from "@/components/layout/List"
 import { Button } from "@/components/layout/Button"
 import Card from "@/components/layout/Card"
 import Nav from "./components/layout/Nav"
+import { LocationItem } from "./components/layout/List"
+import ResultsGroup from "./components/layout/ResultsGroup"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
@@ -86,13 +89,28 @@ function App() {
         import.meta.env.VITE_GEODATA_LOGIN,
         import.meta.env.VITE_GEODATA_PASSWORD
       )
-      console.log(data)
+
       // setMapData(parseToGeoJson(data))
       setMapData(data.data)
     }
     fetchDataAndParse()
   }, [])
 
+  function groupArtworksByLocation(artworks) {
+    const grouped = {}
+    for (const artwork of artworks) {
+      const location = artwork.properties.location
+      if (!grouped[location]) {
+        grouped[location] = []
+      }
+      grouped[location].push(artwork)
+    }
+    // Convert the object into an array of objects with 'name' instead of 'location'
+    return Object.keys(grouped).map((location) => ({
+      name: location,
+      artworks: grouped[location],
+    }))
+  }
   return (
     <>
       {/* <Nav /> */}
@@ -100,10 +118,9 @@ function App() {
         <Aside>
           {resultsArr && resultsArr[0] ? (
             <List animate={resultsArr}>
-              {resultsArr &&
-                resultsArr.map((data, index) => (
-                  <Card key={index} data={data} properties={data.properties} />
-                ))}
+              {groupArtworksByLocation(resultsArr).map((location, index) => {
+                return <ResultsGroup location={location} index={index} />
+              })}
             </List>
           ) : null}
         </Aside>
