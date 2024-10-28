@@ -23,9 +23,9 @@ function App() {
 
   // entry point
   const [viewport, setViewport] = useState({
-    long: 7,
-    lat: 51.07,
-    zoom: 9.5,
+    long: 1,
+    lat: 50,
+    zoom: 4,
     bearing: 0,
     pitch: 0,
   })
@@ -167,6 +167,7 @@ function App() {
           mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+          projection="mercator"
         >
           {
             <Source
@@ -183,7 +184,7 @@ function App() {
             </Source>
           }
 
-          <Marker latitude={viewport.lat} longitude={viewport.long} />
+          {/* <Marker latitude={viewport.lat} longitude={viewport.long} /> */}
         </Map>
       </div>
     </>

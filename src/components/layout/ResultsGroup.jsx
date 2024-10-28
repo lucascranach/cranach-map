@@ -1,8 +1,56 @@
 import { useState } from "react"
 import styled, { keyframes, css } from "styled-components"
-import { LocationItem, List } from "./List"
+import { colors } from "@/base/variables"
+import { List } from "./List"
 import Card from "./Card"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
+
+const StyledLocationGroup = styled.div`
+  /* outline: 1px solid red; */
+  /* background-color: red; */
+  background-color: white;
+  /* margin-bottom: 0.5rem; */
+`
+
+const LocationItem = styled.li`
+  /* outline: 1px solid red; */
+
+  width: 28rem;
+  border-bottom: 1px solid ${colors.accent};
+
+  position: sticky;
+  top: 0;
+  /* top: ${({ index }) =>
+    index * 3.5}rem; // Adjust the multiplier as needed */
+  background-color: ${colors.lighter};
+  background-color: ${colors.lightest};
+
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+  font-weight: 200;
+  font-size: 0.9rem;
+  cursor: pointer;
+  .results-location {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .results-amount {
+    display: flex;
+    gap: 0.2rem;
+
+    .number {
+      color: ${colors.decoration};
+    }
+    .pound {
+      color: ${colors.light};
+    }
+  }
+  svg {
+    color: ${colors.accent};
+  }
+`
 
 export function LocationGroup({ location, index }) {
   const [open, setOpen] = useState(true)
@@ -13,15 +61,20 @@ export function LocationGroup({ location, index }) {
   }
 
   return (
-    <div className="location-group">
+    <StyledLocationGroup>
       <LocationItem index={index} onClick={handleClick}>
+        <span className="results-location">
+          <h3 className="results-location-name">{location.name}</h3>
+        </span>
         <span className="results-amount">
           <span className="pound">#</span>
           <span className="number">{location.artworks.length}</span>
-          <span>Werke gefunden</span>
-        </span>
-        <span className="results-location">
-          <h3 className="results-location-name">{location.name}</h3>
+          {location.artworks.length === 1 ? (
+            <span>Werk gefunden</span>
+          ) : (
+            <span>Werke gefunden</span>
+          )}
+
           {!open ? <FaChevronUp /> : <FaChevronDown />}
         </span>
       </LocationItem>
@@ -32,7 +85,7 @@ export function LocationGroup({ location, index }) {
           })}
         </List>
       )}
-    </div>
+    </StyledLocationGroup>
   )
 }
 
