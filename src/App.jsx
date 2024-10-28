@@ -184,7 +184,7 @@ function App() {
             </Source>
           }
 
-          <Marker latitude={viewport.lat} longitude={viewport.long} />
+          {/* <Marker latitude={viewport.lat} longitude={viewport.long} /> */}
         </Map>
       </div>
     </>

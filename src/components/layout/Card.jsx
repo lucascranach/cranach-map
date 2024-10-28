@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { colors } from "@/base/variables"
 
 const Li = styled.li`
-  width: 32rem;
+  width: 28rem;
   height: 11rem;
   position: relative;
   display: flex;
