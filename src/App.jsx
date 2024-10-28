@@ -23,9 +23,9 @@ function App() {
 
   // entry point
   const [viewport, setViewport] = useState({
-    long: 7,
-    lat: 51.07,
-    zoom: 9.5,
+    long: 1,
+    lat: 50,
+    zoom: 4,
     bearing: 0,
     pitch: 0,
   })
