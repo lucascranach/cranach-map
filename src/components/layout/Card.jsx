@@ -11,10 +11,6 @@ const Li = styled.li`
   background-color: ${colors.lighter};
   border-bottom: 1px solid ${colors.accent};
 
-  &:first-of-type {
-    margin-top: 0.5rem;
-  }
-
   a {
     cursor: pointer;
   }
@@ -27,7 +23,8 @@ const Li = styled.li`
     align-items: center;
     justify-content: center;
 
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
+    padding: 1rem;
     width: 10rem;
     min-width: 10rem;
     max-width: 10rem;

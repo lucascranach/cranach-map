@@ -167,6 +167,7 @@ function App() {
           mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+          projection="mercator"
         >
           {
             <Source
