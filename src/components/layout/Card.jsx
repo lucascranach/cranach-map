@@ -2,10 +2,12 @@ import React from "react"
 import styled from "styled-components"
 
 import { colors } from "@/base/variables"
+import { trimText } from "@/helpers/trimText"
 
 const Li = styled.li`
   width: 28rem;
-  height: 11rem;
+
+  min-height: 11rem;
   position: relative;
   display: flex;
   background-color: ${colors.lighter};
@@ -28,6 +30,7 @@ const Li = styled.li`
     width: 10rem;
     min-width: 10rem;
     max-width: 10rem;
+    max-height: 11rem;
     a {
       display: flex;
       align-items: center;
@@ -61,7 +64,8 @@ const Li = styled.li`
     div {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.27rem;
+
       /* Title */
       h2 {
         font-family: IBMPlexSans, sans-serif;
@@ -82,6 +86,22 @@ const Li = styled.li`
     }
   }
 `
+
+/*
+  properties": {
+"dating": "1501",
+"img_src": "https://lucascranach.org/imageserver-2022/AT_KHM_GG6905_FR001/01_Overall/AT_KHM_GG6905_FR001_2008-08_Overall-s.jpg",
+"inventory_number": "AT_KHM_GG6905",
+"involved_persons": [
+"Lucas Cranach der Ältere"
+],
+"location": "Wien",
+"medium": "Malerei auf Lindenholz (Tilia sp.)\n[Klein, Bericht 2013]\n[P. Klein, Bericht von 1980]",
+"owner": "Kunsthistorisches Museum, Wien",
+"title": "Kreuzigung Christi, sog. \"Schottenkreuzigung\""
+}
+
+*/
 
 const Card = ({ properties }) => {
   return (
@@ -109,8 +129,11 @@ const Card = ({ properties }) => {
         rel="noopener noreferrer"
       >
         <div>
-          <h2 className="title">{properties.title}</h2>
-          <h3 className="location">{properties.location}</h3>
+          <h2 className="title">
+            {trimText(properties.title, 80)}, {properties.dating}
+          </h2>
+          <h3 className="medium">{trimText(properties.medium, 80)}</h3>
+          <h3 className="location">{properties.owner}</h3>
         </div>
       </a>
     </Li>
