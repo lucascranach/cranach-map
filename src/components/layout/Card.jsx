@@ -87,22 +87,6 @@ const Li = styled.li`
   }
 `
 
-/*
-  properties": {
-"dating": "1501",
-"img_src": "https://lucascranach.org/imageserver-2022/AT_KHM_GG6905_FR001/01_Overall/AT_KHM_GG6905_FR001_2008-08_Overall-s.jpg",
-"inventory_number": "AT_KHM_GG6905",
-"involved_persons": [
-"Lucas Cranach der Ältere"
-],
-"location": "Wien",
-"medium": "Malerei auf Lindenholz (Tilia sp.)\n[Klein, Bericht 2013]\n[P. Klein, Bericht von 1980]",
-"owner": "Kunsthistorisches Museum, Wien",
-"title": "Kreuzigung Christi, sog. \"Schottenkreuzigung\""
-}
-
-*/
-
 const Card = ({ properties }) => {
   useEffect(() => {
     console.log(properties.title, typeof properties.involved_persons)
