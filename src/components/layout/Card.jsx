@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 
 import { colors } from "@/base/variables"
@@ -104,6 +104,9 @@ const Li = styled.li`
 */
 
 const Card = ({ properties }) => {
+  useEffect(() => {
+    console.log(properties.title, typeof properties.involved_persons)
+  }, [])
   return (
     <Li>
       <figure>
@@ -133,7 +136,9 @@ const Card = ({ properties }) => {
             {properties.title}, {properties.dating}
           </h2>
           <h3 className="medium">{properties.medium}</h3>
-          <h3 className="medium">{properties.involved_persons[0]}</h3>
+          {properties.involved_persons[0] && (
+            <h3 className="involved-persons">{properties.involved_persons}</h3>
+          )}
           <h3 className="location">{properties.owner}</h3>
         </div>
       </a>
