@@ -130,9 +130,10 @@ const Card = ({ properties }) => {
       >
         <div>
           <h2 className="title">
-            {trimText(properties.title, 80)}, {properties.dating}
+            {properties.title}, {properties.dating}
           </h2>
-          <h3 className="medium">{trimText(properties.medium, 80)}</h3>
+          <h3 className="medium">{properties.medium}</h3>
+          <h3 className="medium">{properties.involved_persons[0]}</h3>
           <h3 className="location">{properties.owner}</h3>
         </div>
       </a>
