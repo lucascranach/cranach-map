@@ -19,7 +19,7 @@ export async function fetchData(url, login, password) {
     }
 
     const data = await response.json()
-    // console.log("Fetched Data:", data) // Log the fetched data
+
     return data
   } catch (error) {
     console.error("Error fetching data:", error)

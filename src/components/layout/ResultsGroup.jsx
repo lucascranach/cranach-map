@@ -6,16 +6,12 @@ import Card from "./Card"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
 const StyledLocationGroup = styled.div`
-  /* outline: 1px solid red; */
-  /* background-color: red; */
   background-color: white;
-  /* margin-bottom: 0.5rem; */
 `
 
 const LocationItem = styled.li`
-  /* outline: 1px solid red; */
-
   width: 28rem;
+
   border-bottom: 1px solid ${colors.accent};
 
   position: sticky;

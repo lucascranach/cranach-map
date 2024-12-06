@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import Map, { Source, Layer, Marker } from "react-map-gl"
 import { useAtom } from "jotai"
 
-import { mapDataAtom, demoMapDataAtom } from "@/store/store.jsx"
+import { mapDataAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
 import { groupArtworksByLocation } from "@/helpers/groupArtworksByLocation.js"
 
@@ -17,7 +17,7 @@ import ResultsGroup from "./components/layout/ResultsGroup"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
-  const [demoMapData, setDemoMapData] = useAtom(demoMapDataAtom)
+
   const [resultsArr, setResultsArr] = useState()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -173,7 +173,7 @@ function App() {
             <Source
               id="paintings"
               type="geojson"
-              data={mapData ? mapData : demoMapData}
+              data={mapData}
               cluster={true}
               clusterMaxZoom={14}
               clusterRadius={50}
