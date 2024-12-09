@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import Map, { Source, Layer, Marker } from "react-map-gl"
+import Map, {
+  Source,
+  Layer,
+  Marker,
+  NavigationControl,
+  ScaleControl,
+} from "react-map-gl"
 import { useAtom } from "jotai"
 
 import { mapDataAtom } from "@/store/store.jsx"
@@ -19,7 +25,6 @@ function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
 
   const [resultsArr, setResultsArr] = useState()
-  const [isMounted, setIsMounted] = useState(false)
 
   // entry point
   const [viewport, setViewport] = useState({
@@ -169,6 +174,8 @@ function App() {
           interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
           projection="mercator"
         >
+          <NavigationControl position="top-right" />
+          <ScaleControl />
           {
             <Source
               id="paintings"
@@ -183,7 +190,6 @@ function App() {
               <Layer {...unclusteredPointLayer} />
             </Source>
           }
-
           {/* <Marker latitude={viewport.lat} longitude={viewport.long} /> */}
         </Map>
       </div>

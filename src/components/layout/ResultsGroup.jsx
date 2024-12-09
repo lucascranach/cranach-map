@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled, { keyframes, css } from "styled-components"
 import { colors } from "@/base/variables"
 import { List } from "./List"
@@ -55,6 +55,10 @@ export function LocationGroup({ location, index }) {
     e.preventDefault()
     setOpen(!open)
   }
+
+  useEffect(() => {
+    console.log(location)
+  }, [])
 
   return (
     <StyledLocationGroup>

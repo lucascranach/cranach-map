@@ -88,9 +88,6 @@ const Li = styled.li`
 `
 
 const Card = ({ properties }) => {
-  useEffect(() => {
-    console.log(properties.title, typeof properties.involved_persons)
-  }, [])
   return (
     <Li>
       <figure>
@@ -121,6 +118,7 @@ const Card = ({ properties }) => {
           </h2>
           <h3 className="medium">{properties.medium}</h3>
           {properties.involved_persons[0] && (
+            // Json.Parse() nur bei unclustered points
             <h3 className="involved-persons">{properties.involved_persons}</h3>
           )}
           <h3 className="location">{properties.owner}</h3>
