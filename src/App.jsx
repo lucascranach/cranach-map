@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import Map, {
   Source,
   Layer,
-  Marker,
   NavigationControl,
   ScaleControl,
 } from "react-map-gl"
@@ -25,6 +24,7 @@ function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
 
   const [resultsArr, setResultsArr] = useState()
+  const [currentCluster, setCurrentCluster] = useState()
 
   // entry point
   const [viewport, setViewport] = useState({
@@ -36,6 +36,8 @@ function App() {
   })
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
+
+  let hoveredClusterId = null // Define hoveredClusterId here
 
   const fetchClusterChildren = (clusterId, sourceId, results) => {
     mapRef.current
@@ -60,13 +62,18 @@ function App() {
       })
   }
 
+  // cluster click
   const handleClick = (e) => {
     // Clear results
     setResultsArr([])
 
+    console.log(e)
+
     const features = mapRef.current.queryRenderedFeatures(e.point, {
       layers: ["unclustered-point", "clusters", "cluster-count"],
     })
+
+    console.log(features)
 
     if (features.length) {
       const feature = features[0]
@@ -83,6 +90,7 @@ function App() {
     }
   }
 
+  // fetch Data from Api
   useEffect(() => {
     const fetchDataAndParse = async () => {
       const data = await fetchData(
@@ -95,15 +103,17 @@ function App() {
     fetchDataAndParse()
   }, [])
 
-  // highlight current cluster and non cluster
+  // cluster effects
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current.getMap()
 
+      // Zoom in
       map.on("click", "clusters", (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ["clusters"],
         })
+
         const clusterId = features[0].properties.cluster_id
         map
           .getSource("paintings")
@@ -117,6 +127,7 @@ function App() {
           })
       })
 
+      // Zoom in
       map.on("click", "unclustered-point", (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice()
         map.flyTo({
@@ -125,15 +136,35 @@ function App() {
         })
       })
 
-      map.on("mouseenter", "clusters", () => {
+      map.on("mousemove", "clusters", (e) => {
         map.getCanvas().style.cursor = "pointer"
+        if (e.features.length > 0) {
+          if (hoveredClusterId) {
+            map.setFeatureState(
+              { source: "paintings", id: hoveredClusterId },
+              { hover: false }
+            )
+          }
+          hoveredClusterId = e.features[0].id
+          map.setFeatureState(
+            { source: "paintings", id: hoveredClusterId },
+            { hover: true }
+          )
+        }
       })
 
       map.on("mouseleave", "clusters", () => {
         map.getCanvas().style.cursor = ""
+        if (hoveredClusterId) {
+          map.setFeatureState(
+            { source: "paintings", id: hoveredClusterId },
+            { hover: false }
+          )
+        }
+        hoveredClusterId = null
       })
 
-      map.on("mouseenter", "unclustered-point", () => {
+      map.on("mousemove", "unclustered-point", () => {
         map.getCanvas().style.cursor = "pointer"
       })
 
@@ -190,7 +221,6 @@ function App() {
               <Layer {...unclusteredPointLayer} />
             </Source>
           }
-          {/* <Marker latitude={viewport.lat} longitude={viewport.long} /> */}
         </Map>
       </div>
     </>

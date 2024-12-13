@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
+import { useAtom } from "jotai"
 import styled, { keyframes, css } from "styled-components"
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"
+import { useHover } from "@uidotdev/usehooks"
+
 import { colors } from "@/base/variables"
+import { hoverLocationAtom } from "@/store/store"
+
 import { List } from "./List"
 import Card from "./Card"
-import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
 const StyledLocationGroup = styled.div`
   background-color: white;
@@ -50,18 +55,18 @@ const LocationItem = styled.li`
 
 export function LocationGroup({ location, index }) {
   const [open, setOpen] = useState(true)
+  const [hoverLocation, setHoverLocation] = useAtom(hoverLocationAtom)
+  const [ref, hovering] = useHover()
 
   function handleClick(e) {
     e.preventDefault()
     setOpen(!open)
   }
 
-  useEffect(() => {
-    console.log(location)
-  }, [])
+  hovering ? console.log(location.name) : ""
 
   return (
-    <StyledLocationGroup>
+    <StyledLocationGroup ref={ref}>
       <LocationItem index={index} onClick={handleClick}>
         <span className="results-location">
           <h3 className="results-location-name">{location.name}</h3>
@@ -81,7 +86,14 @@ export function LocationGroup({ location, index }) {
       {open && (
         <List>
           {location.artworks.map((data, index) => {
-            return <Card key={index} data={data} properties={data.properties} />
+            return (
+              <Card
+                key={index}
+                data={data}
+                properties={data.properties}
+                location={location}
+              />
+            )
           })}
         </List>
       )}

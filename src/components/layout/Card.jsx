@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
+
 import styled from "styled-components"
 
 import { colors } from "@/base/variables"
-import { trimText } from "@/helpers/trimText"
 
 const Li = styled.li`
   width: 28rem;
@@ -87,7 +87,7 @@ const Li = styled.li`
   }
 `
 
-const Card = ({ properties }) => {
+const Card = ({ properties, location }) => {
   return (
     <Li>
       <figure>
