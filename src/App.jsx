@@ -98,7 +98,12 @@ function App() {
         import.meta.env.VITE_GEODATA_LOGIN,
         import.meta.env.VITE_GEODATA_PASSWORD
       )
-      setMapData(data.data)
+      // Ensure each feature has a unique id
+      const featuresWithId = data.data.features.map((feature, index) => ({
+        ...feature,
+        id: feature.id || index,
+      }))
+      setMapData({ ...data.data, features: featuresWithId })
     }
     fetchDataAndParse()
   }, [])
@@ -164,12 +169,32 @@ function App() {
         hoveredClusterId = null
       })
 
-      map.on("mousemove", "unclustered-point", () => {
+      map.on("mouseenter", "unclustered-point", (e) => {
         map.getCanvas().style.cursor = "pointer"
+        if (e.features.length > 0) {
+          if (hoveredClusterId) {
+            map.setFeatureState(
+              { source: "paintings", id: hoveredClusterId },
+              { hover: false }
+            )
+          }
+          hoveredClusterId = e.features[0].id
+          map.setFeatureState(
+            { source: "paintings", id: hoveredClusterId },
+            { hover: true }
+          )
+        }
       })
 
       map.on("mouseleave", "unclustered-point", () => {
         map.getCanvas().style.cursor = ""
+        if (hoveredClusterId) {
+          map.setFeatureState(
+            { source: "paintings", id: hoveredClusterId },
+            { hover: false }
+          )
+        }
+        hoveredClusterId = null
       })
     }
   }, [mapRef.current])

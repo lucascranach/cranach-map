@@ -118,7 +118,6 @@ const Card = ({ properties, location }) => {
           </h2>
           <h3 className="medium">{properties.medium}</h3>
           {properties.involved_person && (
-            // Json.Parse() nur bei unclustered points
             <h3 className="involved_person">{properties.involved_person}</h3>
           )}
           <h3 className="location">{properties.owner}</h3>
