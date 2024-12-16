@@ -23,5 +23,9 @@ export default defineConfig(({ command, mode }) => {
         store: path.resolve(__dirname, "./src/store"),
       },
     },
+    server: {
+      port: 8080,
+    },
+    base: "/map",
   }
 })
