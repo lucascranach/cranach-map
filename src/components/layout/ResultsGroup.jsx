@@ -56,10 +56,6 @@ export function LocationGroup({ location, index }) {
     setOpen(!open)
   }
 
-  useEffect(() => {
-    console.log(location)
-  }, [])
-
   return (
     <StyledLocationGroup>
       <LocationItem index={index} onClick={handleClick}>

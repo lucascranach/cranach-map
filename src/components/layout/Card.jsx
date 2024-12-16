@@ -2,7 +2,6 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 
 import { colors } from "@/base/variables"
-import { trimText } from "@/helpers/trimText"
 
 const Li = styled.li`
   width: 28rem;
@@ -104,10 +103,7 @@ const Card = ({ properties }) => {
         {!properties.img_src && <figcaption>Kein Bild vorhanden</figcaption>}
       </figure>
       <a
-        href={
-          "https://lucascranach.org/intern/artefacts-preview/de/" +
-          properties.inventory_number
-        }
+        href={"https://lucascranach.org/de/" + properties.inventory_number}
         className="content"
         target="_blank"
         rel="noopener noreferrer"
@@ -117,10 +113,7 @@ const Card = ({ properties }) => {
             {properties.title}, {properties.dating}
           </h2>
           <h3 className="medium">{properties.medium}</h3>
-          {properties.involved_persons[0] && (
-            // Json.Parse() nur bei unclustered points
-            <h3 className="involved-persons">{properties.involved_persons}</h3>
-          )}
+          <h3 className="involved-person">{properties.involved_person}</h3>
           <h3 className="location">{properties.owner}</h3>
         </div>
       </a>
