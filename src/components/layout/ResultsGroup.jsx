@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import styled, { keyframes, css } from "styled-components"
 import { colors } from "@/base/variables"
-import { List } from "./List"
+import { List } from "../styled/List"
 import Card from "./Card"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
