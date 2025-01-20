@@ -20,12 +20,13 @@ export default defineConfig(({ command, mode }) => {
         base: path.resolve(__dirname, "./src/base"),
         components: path.resolve(__dirname, "./src/components"),
         helpers: path.resolve(__dirname, "./src/helpers"),
+        hooks: path.resolve(__dirname, "./src/hooks"),
         store: path.resolve(__dirname, "./src/store"),
       },
     },
     server: {
       port: 8080,
     },
-    base: "/map",
+    base: "/en/map",
   }
 })
