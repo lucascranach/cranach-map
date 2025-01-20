@@ -13,7 +13,6 @@ import {
   unclusteredPointLayer,
 } from "@/components/map/Layers.jsx"
 
-import { fetchData } from "@/helpers/fetchData.js"
 import { mapDataAtom, clusterAtom } from "@/store/store.jsx"
 
 const MapGl = () => {
@@ -77,18 +76,6 @@ const MapGl = () => {
         }
       })
   }
-
-  useEffect(() => {
-    const fetchDataAndParse = async () => {
-      const data = await fetchData(
-        import.meta.env.VITE_GEODATA_URL,
-        import.meta.env.VITE_GEODATA_LOGIN,
-        import.meta.env.VITE_GEODATA_PASSWORD
-      )
-      setMapData(data.data)
-    }
-    fetchDataAndParse()
-  }, [])
 
   return (
     <Map
