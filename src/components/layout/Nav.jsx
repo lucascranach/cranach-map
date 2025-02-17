@@ -14,6 +14,7 @@ const StyledNav = styled.nav`
   padding: ${sizes.m} ${sizes.l};
 
   ul {
+    width: 100%;
     display: flex;
     column-gap: ${sizes.xxl};
     align-items: center;
