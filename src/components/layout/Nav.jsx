@@ -40,7 +40,11 @@ const StyledNav = styled.nav`
       height: 1.2rem;
       opacity: 1;
 
-      margin-right: auto.36rem;
+      margin-right: auto 0.36rem;
+    }
+    .text {
+      font-family: IBMPlexSans;
+      font-size: 0.9rem;
     }
   }
 `
@@ -66,8 +70,8 @@ const Nav = () => {
             href={`https://lucascranach.org/${lang}/search?kind=works&loadLatestSearchConfiguration=true`}
             className="apps-icon-wrap"
           >
-            <span class="material-icons">apps</span>
-            <span>{translations[lang]}</span>
+            <span className="material-icons">apps</span>
+            <span className="text">{translations[lang]}</span>
           </a>
         </li>
       </ul>
