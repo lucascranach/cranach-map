@@ -6,6 +6,7 @@ import { mapDataAtom, clusterAtom, languageAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
 import { Results } from "@/components/layout/Results"
 import MapGl from "@/components/map/Map"
+import Nav from "./components/layout/Nav"
 
 function App() {
   const [mapData, setMapData] = useAtom(mapDataAtom)
@@ -28,6 +29,7 @@ function App() {
   return (
     <div id="map">
       <Results />
+      <Nav />
       <MapGl />
     </div>
   )

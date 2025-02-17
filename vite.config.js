@@ -27,6 +27,6 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: 8080,
     },
-    base: "/",
+    base: "/map",
   }
 })
