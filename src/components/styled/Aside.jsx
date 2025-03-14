@@ -7,10 +7,10 @@ export const Aside = styled.aside`
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: calc(${sizes.l} * 2);
+  top: calc(${sizes.l} * 2 + 0.5rem);
   left: 0;
   z-index: 1;
   height: auto;
-  max-height: calc(100vh - ${sizes.l} * 2);
+  max-height: calc(100vh - ${sizes.l} * 2 - 0.5rem);
   /* padding: 0.45rem; */
 `
