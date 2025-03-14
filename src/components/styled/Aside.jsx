@@ -1,13 +1,16 @@
 import styled from "styled-components"
+import { sizes } from "@/base/variables"
+
+// 24px
 
 export const Aside = styled.aside`
   display: flex;
   flex-direction: column;
   position: fixed;
-  /* top: 0; */
+  top: calc(${sizes.l} * 2);
   left: 0;
   z-index: 1;
   height: auto;
-  max-height: 100%;
+  max-height: calc(100vh - ${sizes.l} * 2);
   /* padding: 0.45rem; */
 `
