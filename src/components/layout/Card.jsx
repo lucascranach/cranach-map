@@ -1,6 +1,8 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
+import { useAtom, useAtomValue } from "jotai"
 
+import { languageAtom } from "@/store/store.jsx"
 import { colors } from "@/base/variables"
 
 const Li = styled.li`
@@ -87,11 +89,14 @@ const Li = styled.li`
 `
 
 const Card = ({ properties }) => {
+  const lang = useAtomValue(languageAtom)
   return (
     <Li>
       <figure>
         <a
-          href={"https://lucascranach.org/de/" + properties.inventory_number}
+          href={
+            `https://lucascranach.org/${lang}/` + properties.inventory_number
+          }
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -100,7 +105,7 @@ const Card = ({ properties }) => {
         {!properties.img_src && <figcaption>Kein Bild vorhanden</figcaption>}
       </figure>
       <a
-        href={"https://lucascranach.org/de/" + properties.inventory_number}
+        href={`https://lucascranach.org/${lang}/` + properties.inventory_number}
         className="content"
         target="_blank"
         rel="noopener noreferrer"
