@@ -91,10 +91,7 @@ const Card = ({ properties }) => {
     <Li>
       <figure>
         <a
-          href={
-            "https://lucascranach.org/intern/artefacts-preview/de/" +
-            properties.inventory_number
-          }
+          href={"https://lucascranach.org/de/" + properties.inventory_number}
           target="_blank"
           rel="noopener noreferrer"
         >
