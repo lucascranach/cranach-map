@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import { useAtom, useAtomValue } from "jotai"
-import { useSearchParams } from "react-router"
 
 import { mapDataAtom, clusterAtom, languageAtom } from "@/store/store.jsx"
 import { fetchData } from "@/helpers/fetchData.js"
