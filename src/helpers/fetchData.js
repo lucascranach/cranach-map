@@ -8,7 +8,7 @@ export async function fetchData(url, login, password, language) {
     const encodedCredentials = encode(`${login}:${password}`)
     // console.log("Encoded Credentials:", encodedCredentials) // Debugging line
 
-    const response = await fetch(`${url}&language=${language}`, {
+    const response = await fetch(`${url}&language=${language}&is_published=true`, {
       headers: new Headers({
         Authorization: `Basic ${encodedCredentials}`,
       }),
