@@ -6,16 +6,16 @@ export function trimText(text, limit) {
       const trimmedText = text.substring(0, limit)
       const lastSpaceIndex = trimmedText.lastIndexOf(" ")
       if (lastSpaceIndex !== -1) {
-        return trimmedText.substring(0, lastSpaceIndex)
+        return trimmedText.substring(0, lastSpaceIndex) + "..."
       }
-      return trimmedText
+      return trimmedText + "..."
     }
     return text
   } else {
     // Trim by words
     const words = text.split(" ")
     if (words.length > limit) {
-      return words.slice(0, limit).join(" ")
+      return words.slice(0, limit).join(" ") + "..."
     }
     return text
   }

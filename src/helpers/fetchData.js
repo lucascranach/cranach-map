@@ -1,11 +1,14 @@
 import { encode } from "js-base64"
 
-export async function fetchData(url, login, password) {
+export async function fetchData(url, login, password, language) {
   try {
+    if (language !== "de" && language !== "en") {
+      language = "de"
+    }
     const encodedCredentials = encode(`${login}:${password}`)
     // console.log("Encoded Credentials:", encodedCredentials) // Debugging line
 
-    const response = await fetch(`${url}`, {
+    const response = await fetch(`${url}&language=${language}&is_published=true`, {
       headers: new Headers({
         Authorization: `Basic ${encodedCredentials}`,
       }),
@@ -19,7 +22,7 @@ export async function fetchData(url, login, password) {
     }
 
     const data = await response.json()
-    // console.log("Fetched Data:", data) // Log the fetched data
+
     return data
   } catch (error) {
     console.error("Error fetching data:", error)

@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import styled, { keyframes, css } from "styled-components"
 
 const slideInFromLeft = keyframes`

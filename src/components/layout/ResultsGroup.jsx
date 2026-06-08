@@ -1,21 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useAtomValue } from "jotai"
 import styled, { keyframes, css } from "styled-components"
+import { languageAtom } from "@/store/store"
+
 import { colors } from "@/base/variables"
-import { List } from "./List"
+import { List } from "../styled/List"
 import Card from "./Card"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
 const StyledLocationGroup = styled.div`
-  /* outline: 1px solid red; */
-  /* background-color: red; */
   background-color: white;
-  /* margin-bottom: 0.5rem; */
 `
 
 const LocationItem = styled.li`
-  /* outline: 1px solid red; */
-
   width: 28rem;
+
   border-bottom: 1px solid ${colors.accent};
 
   position: sticky;
@@ -54,6 +53,18 @@ const LocationItem = styled.li`
 
 export function LocationGroup({ location, index }) {
   const [open, setOpen] = useState(true)
+  const lang = useAtomValue(languageAtom)
+
+  const translations = {
+    en: {
+      single: "Artwork found",
+      multiple: "Artworks found",
+    },
+    de: {
+      single: "Werk gefunden",
+      multiple: "Werke gefunden",
+    },
+  }
 
   function handleClick(e) {
     e.preventDefault()
@@ -70,9 +81,9 @@ export function LocationGroup({ location, index }) {
           <span className="pound">#</span>
           <span className="number">{location.artworks.length}</span>
           {location.artworks.length === 1 ? (
-            <span>Werk gefunden</span>
+            <span>{translations[lang].single}</span>
           ) : (
-            <span>Werke gefunden</span>
+            <span>{translations[lang].multiple}</span>
           )}
 
           {!open ? <FaChevronUp /> : <FaChevronDown />}

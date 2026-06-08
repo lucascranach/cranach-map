@@ -1,11 +1,14 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
+import { useAtom, useAtomValue } from "jotai"
 
+import { languageAtom } from "@/store/store.jsx"
 import { colors } from "@/base/variables"
 
 const Li = styled.li`
   width: 28rem;
-  height: 11rem;
+
+  min-height: 11rem;
   position: relative;
   display: flex;
   background-color: ${colors.lighter};
@@ -28,6 +31,7 @@ const Li = styled.li`
     width: 10rem;
     min-width: 10rem;
     max-width: 10rem;
+    max-height: 11rem;
     a {
       display: flex;
       align-items: center;
@@ -61,7 +65,8 @@ const Li = styled.li`
     div {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.27rem;
+
       /* Title */
       h2 {
         font-family: IBMPlexSans, sans-serif;
@@ -84,13 +89,13 @@ const Li = styled.li`
 `
 
 const Card = ({ properties }) => {
+  const lang = useAtomValue(languageAtom)
   return (
     <Li>
       <figure>
         <a
           href={
-            "https://lucascranach.org/intern/artefacts-preview/de/" +
-            properties.inventory_number
+            `https://lucascranach.org/${lang}/` + properties.inventory_number
           }
           target="_blank"
           rel="noopener noreferrer"
@@ -100,17 +105,18 @@ const Card = ({ properties }) => {
         {!properties.img_src && <figcaption>Kein Bild vorhanden</figcaption>}
       </figure>
       <a
-        href={
-          "https://lucascranach.org/intern/artefacts-preview/de/" +
-          properties.inventory_number
-        }
+        href={`https://lucascranach.org/${lang}/` + properties.inventory_number}
         className="content"
         target="_blank"
         rel="noopener noreferrer"
       >
         <div>
-          <h2 className="title">{properties.title}</h2>
-          <h3 className="location">{properties.location}</h3>
+          <h2 className="title">
+            {properties.title}, {properties.dating}
+          </h2>
+          <h3 className="medium">{properties.medium}</h3>
+          <h3 className="involved-person">{properties.involved_person}</h3>
+          <h3 className="location">{properties.owner}</h3>
         </div>
       </a>
     </Li>

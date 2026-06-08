@@ -1,63 +1,79 @@
 import React from "react"
 import styled from "styled-components"
-import { colors } from "@/base/variables"
+import { useAtom, useAtomValue } from "jotai"
+
+import { sizes } from "@/base/variables"
+
+import CDALogo from "@/assets/cda-logo-bw.svg"
+
+import { languageAtom } from "@/store/store.jsx"
 
 const StyledNav = styled.nav`
-  width: 100%;
-  min-height: 3.78rem;
-  padding: 0.72rem 0;
-  background-color: #fff;
-  z-index: 2;
-  border-bottom: 2px solid ${colors.lighter};
   display: flex;
+  width: 100%;
+  padding: ${sizes.m} ${sizes.l};
 
-  .logo {
-    font-size: 1.89rem;
-    display: block;
-    img {
-      height: 1rem;
-      opacity: 0.3;
-      transition: opacity 0.2s;
-      padding-left: 1.17rem;
-      padding-right: 1.17rem;
+  ul {
+    width: 100%;
+    display: flex;
+    column-gap: ${sizes.xxl};
+    align-items: center;
+    li {
     }
   }
 
-  .menu {
+  .cda-logo-wrap {
+    width: 12.6rem;
+    padding: 0;
+    margin-right: -3px;
+    .cda-logo {
+      height: 1.2rem;
+      opacity: 0.3;
+    }
+  }
+  .apps-icon-wrap {
     display: flex;
-    li {
-      a {
-        display: block;
-        margin: 0 1.17rem;
-        padding: 0.72rem 0;
-        border-bottom: solid 2px transparent;
-        color: #222;
-        font-family: IBMPlexSans, sans-serif;
-        font-size: 0.9rem;
-        font-weight: 200;
-      }
+    align-items: center;
+    column-gap: ${sizes.s};
+    text-decoration: none;
+    color: black;
+    .apps-icon {
+      height: 1.2rem;
+      opacity: 1;
+
+      margin-right: auto 0.36rem;
+    }
+    .text {
+      font-family: IBMPlexSans;
+      font-size: 0.9rem;
     }
   }
 `
 
 const Nav = () => {
+  const lang = useAtomValue(languageAtom)
+
+  const translations = {
+    en: "go to works search",
+    de: "zur Werksuche",
+  }
+
   return (
     <StyledNav>
-      <div className="logo">
-        <img src={"./cda-logo-bw.svg"} alt="cda logo" />
-      </div>
-      <ul class="menu">
+      <ul>
         <li>
-          <a>Alle Werke</a>
+          <a href="https://lucascranach.org/" className="cda-logo-wrap">
+            <img className="cda-logo" src={CDALogo} alt="CDA Logo" />
+          </a>
         </li>
         <li>
-          <a>Gemälde</a>
-        </li>
-        <li>
-          <a>Archivalien</a>
-        </li>
-        <li>
-          <a>Literatur</a>
+          <a
+            href={`https://lucascranach.org/${lang}/search?kind=works&loadLatestSearchConfiguration=true`}
+            className="apps-icon-wrap"
+          >
+            <span className="material-icons">apps</span>
+            <span className="text">{translations[lang]}</span>
+          </a>
         </li>
       </ul>
     </StyledNav>
