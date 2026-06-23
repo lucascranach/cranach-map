@@ -36,5 +36,5 @@ body {
 
   /* Support for IE. */
   font-feature-settings: "liga";
-  color: black;
+  color: inherit;
 }

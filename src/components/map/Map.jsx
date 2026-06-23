@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useAtom } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
 import Map, {
   Source,
   Layer,
@@ -13,13 +13,17 @@ import {
   unclusteredPointLayer,
 } from "@/components/map/Layers.jsx"
 
-import { mapDataAtom, clusterAtom } from "@/store/store.jsx"
+import { mapDataAtom, clusterAtom, darkModeAtom } from "@/store/store.jsx"
 
 const MapGl = () => {
   const mapRef = useRef(null)
 
   const [mapData, setMapData] = useAtom(mapDataAtom)
   const [resultsArr, setResultsArr] = useAtom(clusterAtom)
+  const isDark = useAtomValue(darkModeAtom)
+  const mapStyle = isDark
+    ? import.meta.env.VITE_MAPBOX_STYLE_DARK
+    : import.meta.env.VITE_MAPBOX_STYLE
 
   const [viewport, setViewport] = useState({
     long: 1,
@@ -89,7 +93,7 @@ const MapGl = () => {
       onClick={handleClick}
       maxZoom={14}
       ref={mapRef}
-      mapStyle={import.meta.env.VITE_MAPBOX_STYLE}
+      mapStyle={mapStyle}
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
       interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
       projection="mercator"
