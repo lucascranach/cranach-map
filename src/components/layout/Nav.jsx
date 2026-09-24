@@ -2,16 +2,18 @@ import React from "react"
 import styled from "styled-components"
 import { useAtom, useAtomValue } from "jotai"
 
-import { sizes } from "@/base/variables"
+import { sizes, colors, transitions } from "@/base/variables"
 
 import CDALogo from "@/assets/cda-logo-bw.svg"
 
-import { languageAtom } from "@/store/store.jsx"
+import { languageAtom, darkModeAtom } from "@/store/store.jsx"
 
 const StyledNav = styled.nav`
   display: flex;
   width: 100%;
-  padding: ${sizes.m} ${sizes.l};
+  padding: ${sizes.m} 0 ${sizes.m} ${sizes.l};
+  background-color: ${p => p.$isDark ? colors.dark : colors.lightest};
+  transition: background-color ${transitions.fast} ease;
 
   ul {
     width: 100%;
@@ -29,6 +31,7 @@ const StyledNav = styled.nav`
     .cda-logo {
       height: 1.2rem;
       opacity: 0.3;
+      filter: ${p => p.$isDark ? "invert(1)" : "none"};
     }
   }
   .apps-icon-wrap {
@@ -36,7 +39,11 @@ const StyledNav = styled.nav`
     align-items: center;
     column-gap: ${sizes.s};
     text-decoration: none;
-    color: black;
+    color: ${p => p.$isDark ? colors.lightest : colors.darkest};
+    transition: opacity ${transitions.fast} ease;
+    &:hover {
+      opacity: 0.7;
+    }
     .apps-icon {
       height: 1.2rem;
       opacity: 1;
@@ -48,10 +55,34 @@ const StyledNav = styled.nav`
       font-size: 0.9rem;
     }
   }
+
+  .theme-toggle-item {
+    margin-left: auto;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: ${p => p.$isDark ? colors.lightest : colors.darkest};
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: opacity ${transitions.fast} ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 `
+
 
 const Nav = () => {
   const lang = useAtomValue(languageAtom)
+  const [isDark, setIsDark] = useAtom(darkModeAtom)
 
   const translations = {
     en: "go to works search",
@@ -59,7 +90,7 @@ const Nav = () => {
   }
 
   return (
-    <StyledNav>
+    <StyledNav $isDark={isDark}>
       <ul>
         <li>
           <a href="https://lucascranach.org/" className="cda-logo-wrap">
@@ -74,6 +105,15 @@ const Nav = () => {
             <span className="material-icons">apps</span>
             <span className="text">{translations[lang]}</span>
           </a>
+        </li>
+        <li className="theme-toggle-item">
+          <button
+            aria-label="Toggle theme"
+            className="theme-toggle"
+            onClick={() => setIsDark(v => !v)}
+          >
+            <span className="material-icons">{isDark ? "light_mode" : "dark_mode"}</span>
+          </button>
         </li>
       </ul>
     </StyledNav>
